@@ -1,20 +1,22 @@
-import { v4 as uuidv4 } from "uuid";
+import { UUID, Email, PasswordHash } from "./value-objects";
+import { DomainException } from "./DomainException";
 
 export class User {
-  private _id: number;
-  private _uuid: string;
+  private readonly _id: number;
+  private readonly _uuid: UUID;
   private _username: string;
-  private _email: string;
-  private _passwordHash: string;
+  private _email: Email;
+  private _passwordHash: PasswordHash;
 
   constructor(
     id: number,
+    uuid: UUID,
     username: string,
-    email: string,
-    passwordHash: string
+    email: Email,
+    passwordHash: PasswordHash
   ) {
     this._id = id;
-    this._uuid = uuidv4();
+    this._uuid = uuid;
     this._username = username;
     this._email = email;
     this._passwordHash = passwordHash;
@@ -24,7 +26,7 @@ export class User {
     return this._id;
   }
 
-  get uuid(): string {
+  get uuid(): UUID {
     return this._uuid;
   }
 
@@ -32,31 +34,26 @@ export class User {
     return this._username;
   }
 
-  get email(): string {
+  get email(): Email {
     return this._email;
   }
 
-  get passwordHash(): string {
+  get passwordHash(): PasswordHash {
     return this._passwordHash;
   }
 
-  set id(value: number) {
-    this._id = value;
+  changeUsername(newUsername: string): void {
+    if (newUsername.length < 3) {
+      throw new DomainException("Username must be at least 3 characters long");
+    }
+    this._username = newUsername;
   }
 
-  set uuid(value: string) {
-    this._uuid = value;
+  changeEmail(newEmail: Email): void {
+    this._email = newEmail;
   }
 
-  set username(value: string) {
-    this._username = value;
-  }
-
-  set email(value: string) {
-    this._email = value;
-  }
-
-  set passwordHash(value: string) {
-    this._passwordHash = value;
+  changePassword(newPasswordHash: PasswordHash): void {
+    this._passwordHash = newPasswordHash;
   }
 }
