@@ -1,4 +1,6 @@
-import { UUID, Email, PasswordHash } from "./value-objects";
+import { UUID } from "./value-objects/UUID";
+import { Email } from "./value-objects/Email";
+import { PasswordHash } from "./value-objects/PasswordHash";
 import { DomainException } from "./DomainException";
 
 export class User {
