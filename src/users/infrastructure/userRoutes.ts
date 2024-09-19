@@ -14,6 +14,7 @@ router.get(
   userController.getUserByEmail.bind(userController)
 );
 router.put("/users/:uuid", userController.updateUser.bind(userController));
+router.patch("/users/:uuid", userController.patchUser.bind(userController));
 router.delete("/users/:uuid", userController.deleteUser.bind(userController));
 
 export default router;

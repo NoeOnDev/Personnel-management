@@ -105,6 +105,25 @@ export class UserController {
     }
   }
 
+  public async patchUser(req: Request, res: Response): Promise<void> {
+    try {
+      const { uuid } = req.params;
+      await this.userService.patchUser(uuid, req.body);
+      const updatedUser = await this.userService.getUserByUuid(uuid);
+      if (updatedUser) {
+        res.status(200).json(serializeUser(updatedUser));
+      } else {
+        res.status(404).json({ error: "User not found" });
+      }
+    } catch (error) {
+      if (this.isAppError(error)) {
+        res.status(400).json({ error: error.message });
+      } else {
+        res.status(500).json({ error: "An unexpected error occurred" });
+      }
+    }
+  }
+
   public async deleteUser(req: Request, res: Response): Promise<void> {
     try {
       const { uuid } = req.params;

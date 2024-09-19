@@ -50,6 +50,36 @@ export class UserService {
     if (!user) {
       throw new Error("User not found");
     }
+
+    let passwordHash = user.passwordHash;
+    if (userData.passwordHash) {
+      passwordHash = await this.passwordHasher.hash(userData.passwordHash);
+    }
+
+    const updatedUser = new User(
+      userData.username || user.username,
+      userData.email || user.email,
+      passwordHash,
+      user.id,
+      user.uuid,
+      user.createdAt,
+      new Date()
+    );
+    await this.userRepository.update(updatedUser);
+  }
+
+  public async patchUser(uuid: string, userData: Partial<User>): Promise<void> {
+    const user = await this.userRepository.findByUuid(uuid);
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    if (userData.passwordHash) {
+      userData.passwordHash = await this.passwordHasher.hash(
+        userData.passwordHash
+      );
+    }
+
     const updatedUser = new User(
       userData.username || user.username,
       userData.email || user.email,
