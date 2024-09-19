@@ -32,24 +32,6 @@ export class UserController {
     }
   }
 
-  public async getUserById(req: Request, res: Response): Promise<void> {
-    try {
-      const { id } = req.params;
-      const user = await this.userService.getUserById(BigInt(id));
-      if (user) {
-        res.status(200).json(serializeUser(user));
-      } else {
-        res.status(404).json({ error: "User not found" });
-      }
-    } catch (error) {
-      if (this.isAppError(error)) {
-        res.status(400).json({ error: error.message });
-      } else {
-        res.status(500).json({ error: "An unexpected error occurred" });
-      }
-    }
-  }
-
   public async getUserByUuid(req: Request, res: Response): Promise<void> {
     try {
       const { uuid } = req.params;
