@@ -42,12 +42,31 @@ export class UserService {
     return await this.userRepository.findByEmail(email);
   }
 
-  public async updateUser(user: User): Promise<void> {
-    user.updatedAt = new Date();
-    await this.userRepository.update(user);
+  public async updateUser(
+    uuid: string,
+    userData: Partial<User>
+  ): Promise<void> {
+    const user = await this.userRepository.findByUuid(uuid);
+    if (!user) {
+      throw new Error("User not found");
+    }
+    const updatedUser = new User(
+      userData.username || user.username,
+      userData.email || user.email,
+      userData.passwordHash || user.passwordHash,
+      user.id,
+      user.uuid,
+      user.createdAt,
+      new Date()
+    );
+    await this.userRepository.update(updatedUser);
   }
 
-  public async deleteUser(id: bigint): Promise<void> {
-    await this.userRepository.delete(id);
+  public async deleteUser(uuid: string): Promise<void> {
+    const user = await this.userRepository.findByUuid(uuid);
+    if (!user) {
+      throw new Error("User not found");
+    }
+    await this.userRepository.delete(user.id);
   }
 }
