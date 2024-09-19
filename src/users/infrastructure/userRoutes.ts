@@ -4,11 +4,7 @@ import { userController } from "./userDI";
 const router = Router();
 
 router.post("/users", userController.createUser.bind(userController));
-router.get("/users/:id", userController.getUserById.bind(userController));
-router.get(
-  "/users/uuid/:uuid",
-  userController.getUserByUuid.bind(userController)
-);
+router.get("/users/:uuid", userController.getUserByUuid.bind(userController));
 router.get(
   "/users/username/:username",
   userController.getUserByUsername.bind(userController)
