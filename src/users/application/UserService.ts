@@ -1,14 +1,19 @@
 import { User } from "../domain/User";
 import { UserRepository } from "../domain/UserRepository";
+import { PasswordHasher } from "../domain/PasswordHasher";
 
 export class UserService {
-  constructor(private userRepository: UserRepository) {}
+  constructor(
+    private userRepository: UserRepository,
+    private passwordHasher: PasswordHasher
+  ) {}
 
   public async createUser(
     username: string,
     email: string,
-    passwordHash: string
+    password: string
   ): Promise<User> {
+    const passwordHash = await this.passwordHasher.hash(password);
     const newUser = new User(username, email, passwordHash);
 
     const existingUsers = await this.userRepository.findByUuid(newUser.uuid);

@@ -9,14 +9,22 @@ export class User {
   public readonly createdAt: Date;
   public updatedAt: Date;
 
-  constructor(username: string, email: string, passwordHash: string) {
-    this.id = BigInt(0);
-    this.uuid = uuidv4();
+  constructor(
+    username: string,
+    email: string,
+    passwordHash: string,
+    id: bigint = BigInt(0),
+    uuid: string = uuidv4(),
+    createdAt: Date = new Date(),
+    updatedAt: Date = new Date()
+  ) {
+    this.id = id;
+    this.uuid = uuid;
     this.username = username;
     this.email = email;
     this.passwordHash = passwordHash;
-    this.createdAt = new Date();
-    this.updatedAt = new Date();
+    this.createdAt = createdAt;
+    this.updatedAt = updatedAt;
   }
 
   public validateUniqueness(existingUsers: User[]): void {
