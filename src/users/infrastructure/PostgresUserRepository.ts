@@ -5,6 +5,11 @@ import { UserRepository } from "../domain/UserRepository";
 export class PostgresUserRepository implements UserRepository {
   constructor(private pool: Pool) {}
 
+  public async findAll(): Promise<User[]> {
+    const result = await this.pool.query("SELECT * FROM users");
+    return result.rows.map(this.mapRowToUser);
+  }
+
   public async findById(id: bigint): Promise<User | null> {
     const result = await this.pool.query("SELECT * FROM users WHERE id = $1", [
       id,

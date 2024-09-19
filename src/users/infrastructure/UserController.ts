@@ -32,6 +32,19 @@ export class UserController {
     }
   }
 
+  public async getAllUsers(_req: Request, res: Response): Promise<void> {
+    try {
+      const users = await this.userService.getAllUsers();
+      res.status(200).json(users.map(serializeUser));
+    } catch (error) {
+      if (this.isAppError(error)) {
+        res.status(400).json({ error: error.message });
+      } else {
+        res.status(500).json({ error: "An unexpected error occurred" });
+      }
+    }
+  }
+
   public async getUserByUuid(req: Request, res: Response): Promise<void> {
     try {
       const { uuid } = req.params;
