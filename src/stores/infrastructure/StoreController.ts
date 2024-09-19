@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { StoreService } from "../application/StoreService";
+import { serializeStore } from "./serializeStore";
 
 type AppError = {
   message: string;
@@ -26,7 +27,7 @@ export class StoreController {
         phone,
         userId
       );
-      res.status(201).json(store);
+      res.status(201).json(serializeStore(store));
     } catch (error) {
       if (this.isAppError(error)) {
         res.status(400).json({ error: error.message });
@@ -41,7 +42,7 @@ export class StoreController {
       const { uuid } = req.params;
       const store = await this.storeService.getStoreByUuid(uuid);
       if (store) {
-        res.status(200).json(store);
+        res.status(200).json(serializeStore(store));
       } else {
         res.status(404).json({ error: "Store not found" });
       }
@@ -59,7 +60,7 @@ export class StoreController {
       const { name } = req.params;
       const store = await this.storeService.getStoreByName(name);
       if (store) {
-        res.status(200).json(store);
+        res.status(200).json(serializeStore(store));
       } else {
         res.status(404).json({ error: "Store not found" });
       }
@@ -78,7 +79,7 @@ export class StoreController {
       await this.storeService.updateStore(uuid, req.body);
       const updatedStore = await this.storeService.getStoreByUuid(uuid);
       if (updatedStore) {
-        res.status(200).json(updatedStore);
+        res.status(200).json(serializeStore(updatedStore));
       } else {
         res.status(404).json({ error: "Store not found" });
       }
@@ -97,7 +98,7 @@ export class StoreController {
       await this.storeService.patchStore(uuid, req.body);
       const updatedStore = await this.storeService.getStoreByUuid(uuid);
       if (updatedStore) {
-        res.status(200).json(updatedStore);
+        res.status(200).json(serializeStore(updatedStore));
       } else {
         res.status(404).json({ error: "Store not found" });
       }
