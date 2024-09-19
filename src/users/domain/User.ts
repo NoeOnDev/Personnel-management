@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from "uuid";
 
 export class User {
-  public readonly id: bigint;
+  public id: bigint;
   public readonly uuid: string;
   public username: string;
   public email: string;
@@ -25,6 +25,10 @@ export class User {
     this.passwordHash = passwordHash;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
+  }
+
+  public setId(id: bigint): void {
+    this.id = id;
   }
 
   public validateUniqueness(existingUsers: User[]): void {

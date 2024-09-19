@@ -3,6 +3,7 @@ import express from "express";
 import { pool } from "./config/dbConnection";
 import { envConfig } from "./config/env.config";
 import { errorHandler } from "./errors/errorHandler";
+import userRoutes from "./users/infrastructure/userRoutes";
 
 const app = express();
 const port = envConfig.port;
@@ -10,8 +11,10 @@ const port = envConfig.port;
 app.use(express.json());
 app.use(errorHandler);
 
+app.use("/api/v1", userRoutes);
+
 app.get("/", (_req, res) => {
-  res.send("Welcome to the API Flower Shop");
+  res.send("Welcome to the API");
 });
 
 async function connectWithRetry(retries: number, delay: number) {

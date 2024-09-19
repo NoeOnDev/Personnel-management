@@ -36,9 +36,9 @@ export class PostgresUserRepository implements UserRepository {
     return result.rows.length ? this.mapRowToUser(result.rows[0]) : null;
   }
 
-  public async save(user: User): Promise<void> {
-    await this.pool.query(
-      "INSERT INTO users (uuid, username, email, password_hash, created_at, updated_at) VALUES ($1, $2, $3, $4, $5, $6)",
+  public async save(user: User): Promise<bigint> {
+    const result = await this.pool.query(
+      "INSERT INTO users (uuid, username, email, password_hash, created_at, updated_at) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id",
       [
         user.uuid,
         user.username,
@@ -48,6 +48,7 @@ export class PostgresUserRepository implements UserRepository {
         user.updatedAt,
       ]
     );
+    return BigInt(result.rows[0].id);
   }
 
   public async update(user: User): Promise<void> {

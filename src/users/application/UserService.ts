@@ -21,7 +21,8 @@ export class UserService {
       throw new Error("UUID already exists");
     }
 
-    await this.userRepository.save(newUser);
+    const id = await this.userRepository.save(newUser);
+    newUser.setId(id);
     return newUser;
   }
 

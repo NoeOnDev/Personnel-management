@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { UserService } from "../application/UserService";
+import { serializeUser } from "./serializeUser";
 
 type AppError = {
   message: string;
@@ -19,13 +20,9 @@ export class UserController {
 
   public async createUser(req: Request, res: Response): Promise<void> {
     try {
-      const { username, email, passwordHash } = req.body;
-      const user = await this.userService.createUser(
-        username,
-        email,
-        passwordHash
-      );
-      res.status(201).json(user);
+      const { username, email, password } = req.body;
+      const user = await this.userService.createUser(username, email, password);
+      res.status(201).json(serializeUser(user));
     } catch (error) {
       if (this.isAppError(error)) {
         res.status(400).json({ error: error.message });
@@ -40,7 +37,7 @@ export class UserController {
       const { id } = req.params;
       const user = await this.userService.getUserById(BigInt(id));
       if (user) {
-        res.status(200).json(user);
+        res.status(200).json(serializeUser(user));
       } else {
         res.status(404).json({ error: "User not found" });
       }
@@ -58,7 +55,7 @@ export class UserController {
       const { uuid } = req.params;
       const user = await this.userService.getUserByUuid(uuid);
       if (user) {
-        res.status(200).json(user);
+        res.status(200).json(serializeUser(user));
       } else {
         res.status(404).json({ error: "User not found" });
       }
@@ -76,7 +73,7 @@ export class UserController {
       const { username } = req.params;
       const user = await this.userService.getUserByUsername(username);
       if (user) {
-        res.status(200).json(user);
+        res.status(200).json(serializeUser(user));
       } else {
         res.status(404).json({ error: "User not found" });
       }
@@ -94,7 +91,7 @@ export class UserController {
       const { email } = req.params;
       const user = await this.userService.getUserByEmail(email);
       if (user) {
-        res.status(200).json(user);
+        res.status(200).json(serializeUser(user));
       } else {
         res.status(404).json({ error: "User not found" });
       }
@@ -117,7 +114,7 @@ export class UserController {
       }
       const updatedUser = { ...user, ...req.body };
       await this.userService.updateUser(updatedUser);
-      res.status(200).json(updatedUser);
+      res.status(200).json(serializeUser(updatedUser));
     } catch (error) {
       if (this.isAppError(error)) {
         res.status(400).json({ error: error.message });
