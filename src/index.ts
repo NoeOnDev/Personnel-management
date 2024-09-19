@@ -4,6 +4,7 @@ import { pool } from "./config/dbConnection";
 import { envConfig } from "./config/env.config";
 import { errorHandler } from "./errors/errorHandler";
 import userRoutes from "./users/infrastructure/userRoutes";
+import storeRoutes from "./stores/infrastructure/storeRoutes";
 
 const app = express();
 const port = envConfig.port;
@@ -12,6 +13,7 @@ app.use(express.json());
 app.use(errorHandler);
 
 app.use("/api/v1", userRoutes);
+app.use("/api/v1", storeRoutes);
 
 app.get("/", (_req, res) => {
   res.send("Welcome to the API");
