@@ -8,6 +8,10 @@ router.post(
   employeeController.createEmployee.bind(employeeController)
 );
 router.get(
+  "/employees",
+  employeeController.getAllEmployees.bind(employeeController)
+);
+router.get(
   "/employees/:uuid",
   employeeController.getEmployeeByUuid.bind(employeeController)
 );

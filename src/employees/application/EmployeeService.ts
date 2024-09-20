@@ -33,6 +33,10 @@ export class EmployeeService {
     return newEmployee;
   }
 
+  public async getAllEmployees(): Promise<Employee[]> {
+    return await this.employeeRepository.findAll();
+  }
+
   public async getEmployeeById(id: bigint): Promise<Employee | null> {
     return await this.employeeRepository.findById(id);
   }

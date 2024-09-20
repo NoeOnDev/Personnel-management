@@ -5,6 +5,11 @@ import { EmployeeRepository } from "../domain/EmployeeRepository";
 export class PostgresEmployeesRepository implements EmployeeRepository {
   constructor(private pool: Pool) {}
 
+  public async findAll(): Promise<Employee[]> {
+    const result = await this.pool.query("SELECT * FROM employees");
+    return result.rows.map((row) => this.mapRowToEmployee(row));
+  }
+
   public async findById(id: bigint): Promise<Employee | null> {
     const result = await this.pool.query(
       "SELECT * FROM employees WHERE id = $1",
