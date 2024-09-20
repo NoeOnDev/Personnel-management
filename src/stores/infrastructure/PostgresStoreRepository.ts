@@ -25,14 +25,6 @@ export class PostgresStoreRepository implements StoreRepository {
     return result.rows.length ? this.mapRowToStore(result.rows[0]) : null;
   }
 
-  public async findByName(name: string): Promise<Store | null> {
-    const result = await this.pool.query(
-      "SELECT * FROM stores WHERE name = $1",
-      [name]
-    );
-    return result.rows.length ? this.mapRowToStore(result.rows[0]) : null;
-  }
-
   public async save(store: Store): Promise<bigint> {
     const result = await this.pool.query(
       "INSERT INTO stores (uuid, name, address, phone, user_id, created_at, updated_at) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id",

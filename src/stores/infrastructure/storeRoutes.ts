@@ -9,10 +9,6 @@ router.get(
   "/stores/:uuid",
   storeController.getStoreByUuid.bind(storeController)
 );
-router.get(
-  "/stores/name/:name",
-  storeController.getStoreByName.bind(storeController)
-);
 router.put("/stores/:uuid", storeController.updateStore.bind(storeController));
 router.patch("/stores/:uuid", storeController.patchStore.bind(storeController));
 router.delete(

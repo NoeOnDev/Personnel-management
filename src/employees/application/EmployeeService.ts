@@ -45,10 +45,6 @@ export class EmployeeService {
     return await this.employeeRepository.findByUuid(uuid);
   }
 
-  public async getEmployeeByEmail(email: string): Promise<Employee | null> {
-    return await this.employeeRepository.findByEmail(email);
-  }
-
   public async updateEmployee(
     uuid: string,
     employeeData: Partial<Employee>

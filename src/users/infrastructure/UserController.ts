@@ -63,42 +63,6 @@ export class UserController {
     }
   }
 
-  public async getUserByUsername(req: Request, res: Response): Promise<void> {
-    try {
-      const { username } = req.params;
-      const user = await this.userService.getUserByUsername(username);
-      if (user) {
-        res.status(200).json(serializeUser(user));
-      } else {
-        res.status(404).json({ error: "User not found" });
-      }
-    } catch (error) {
-      if (this.isAppError(error)) {
-        res.status(400).json({ error: error.message });
-      } else {
-        res.status(500).json({ error: "An unexpected error occurred" });
-      }
-    }
-  }
-
-  public async getUserByEmail(req: Request, res: Response): Promise<void> {
-    try {
-      const { email } = req.params;
-      const user = await this.userService.getUserByEmail(email);
-      if (user) {
-        res.status(200).json(serializeUser(user));
-      } else {
-        res.status(404).json({ error: "User not found" });
-      }
-    } catch (error) {
-      if (this.isAppError(error)) {
-        res.status(400).json({ error: error.message });
-      } else {
-        res.status(500).json({ error: "An unexpected error occurred" });
-      }
-    }
-  }
-
   public async updateUser(req: Request, res: Response): Promise<void> {
     try {
       const { uuid } = req.params;

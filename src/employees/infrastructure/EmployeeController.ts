@@ -71,24 +71,6 @@ export class EmployeeController {
     }
   }
 
-  public async getEmployeeByEmail(req: Request, res: Response): Promise<void> {
-    try {
-      const { email } = req.params;
-      const employee = await this.employeeService.getEmployeeByEmail(email);
-      if (employee) {
-        res.status(200).json(serializeEmployee(employee));
-      } else {
-        res.status(404).json({ error: "Employee not found" });
-      }
-    } catch (error) {
-      if (this.isAppError(error)) {
-        res.status(400).json({ error: error.message });
-      } else {
-        res.status(500).json({ error: "An unexpected error occurred" });
-      }
-    }
-  }
-
   public async updateEmployee(req: Request, res: Response): Promise<void> {
     try {
       const { uuid } = req.params;

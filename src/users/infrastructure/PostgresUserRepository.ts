@@ -25,22 +25,6 @@ export class PostgresUserRepository implements UserRepository {
     return result.rows.length ? this.mapRowToUser(result.rows[0]) : null;
   }
 
-  public async findByUsername(username: string): Promise<User | null> {
-    const result = await this.pool.query(
-      "SELECT * FROM users WHERE username = $1",
-      [username]
-    );
-    return result.rows.length ? this.mapRowToUser(result.rows[0]) : null;
-  }
-
-  public async findByEmail(email: string): Promise<User | null> {
-    const result = await this.pool.query(
-      "SELECT * FROM users WHERE email = $1",
-      [email]
-    );
-    return result.rows.length ? this.mapRowToUser(result.rows[0]) : null;
-  }
-
   public async save(user: User): Promise<bigint> {
     const result = await this.pool.query(
       "INSERT INTO users (uuid, username, email, password_hash, created_at, updated_at) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id",

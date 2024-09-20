@@ -34,10 +34,6 @@ export class StoreService {
     return await this.storeRepository.findByUuid(uuid);
   }
 
-  public async getStoreByName(name: string): Promise<Store | null> {
-    return await this.storeRepository.findByName(name);
-  }
-
   public async updateStore(
     uuid: string,
     storeData: Partial<Store>

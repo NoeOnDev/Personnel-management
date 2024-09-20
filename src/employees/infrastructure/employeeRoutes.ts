@@ -15,10 +15,6 @@ router.get(
   "/employees/:uuid",
   employeeController.getEmployeeByUuid.bind(employeeController)
 );
-router.get(
-  "/employees/email/:email",
-  employeeController.getEmployeeByEmail.bind(employeeController)
-);
 router.put(
   "/employees/:uuid",
   employeeController.updateEmployee.bind(employeeController)

@@ -38,14 +38,6 @@ export class UserService {
     return await this.userRepository.findByUuid(uuid);
   }
 
-  public async getUserByUsername(username: string): Promise<User | null> {
-    return await this.userRepository.findByUsername(username);
-  }
-
-  public async getUserByEmail(email: string): Promise<User | null> {
-    return await this.userRepository.findByEmail(email);
-  }
-
   public async updateUser(
     uuid: string,
     userData: Partial<User>

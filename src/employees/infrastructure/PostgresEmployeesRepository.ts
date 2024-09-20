@@ -32,17 +32,6 @@ export class PostgresEmployeesRepository implements EmployeeRepository {
     return this.mapRowToEmployee(result.rows[0]);
   }
 
-  public async findByEmail(email: string): Promise<Employee | null> {
-    const result = await this.pool.query(
-      "SELECT * FROM employees WHERE email = $1",
-      [email]
-    );
-    if (result.rows.length === 0) {
-      return null;
-    }
-    return this.mapRowToEmployee(result.rows[0]);
-  }
-
   public async save(employee: Employee): Promise<bigint> {
     const result = await this.pool.query(
       `INSERT INTO employees (uuid, first_name, last_name, email, store_id, position, hire_date, created_at, updated_at)

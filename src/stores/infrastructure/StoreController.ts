@@ -68,24 +68,6 @@ export class StoreController {
     }
   }
 
-  public async getStoreByName(req: Request, res: Response): Promise<void> {
-    try {
-      const { name } = req.params;
-      const store = await this.storeService.getStoreByName(name);
-      if (store) {
-        res.status(200).json(serializeStore(store));
-      } else {
-        res.status(404).json({ error: "Store not found" });
-      }
-    } catch (error) {
-      if (this.isAppError(error)) {
-        res.status(400).json({ error: error.message });
-      } else {
-        res.status(500).json({ error: "An unexpected error occurred" });
-      }
-    }
-  }
-
   public async updateStore(req: Request, res: Response): Promise<void> {
     try {
       const { uuid } = req.params;
