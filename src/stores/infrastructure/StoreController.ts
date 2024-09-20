@@ -37,6 +37,19 @@ export class StoreController {
     }
   }
 
+  public async getAllStores(_req: Request, res: Response): Promise<void> {
+    try {
+      const stores = await this.storeService.getAllStores();
+      res.status(200).json(stores.map(serializeStore));
+    } catch (error) {
+      if (this.isAppError(error)) {
+        res.status(400).json({ error: error.message });
+      } else {
+        res.status(500).json({ error: "An unexpected error occurred" });
+      }
+    }
+  }
+
   public async getStoreByUuid(req: Request, res: Response): Promise<void> {
     try {
       const { uuid } = req.params;

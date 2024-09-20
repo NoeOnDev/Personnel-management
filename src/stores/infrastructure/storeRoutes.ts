@@ -4,6 +4,7 @@ import { storeController } from "./storeDI";
 const router = Router();
 
 router.post("/stores", storeController.createStore.bind(storeController));
+router.get("/stores", storeController.getAllStores.bind(storeController));
 router.get(
   "/stores/:uuid",
   storeController.getStoreByUuid.bind(storeController)

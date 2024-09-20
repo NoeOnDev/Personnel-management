@@ -5,6 +5,11 @@ import { StoreRepository } from "../domain/StoreRepository";
 export class PostgresStoreRepository implements StoreRepository {
   constructor(private pool: Pool) {}
 
+  public async findAll(): Promise<Store[]> {
+    const result = await this.pool.query("SELECT * FROM stores");
+    return result.rows.map((row) => this.mapRowToStore(row));
+  }
+
   public async findById(id: bigint): Promise<Store | null> {
     const result = await this.pool.query("SELECT * FROM stores WHERE id = $1", [
       id,

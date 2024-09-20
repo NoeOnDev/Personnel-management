@@ -22,6 +22,10 @@ export class StoreService {
     return newStore;
   }
 
+  public async getAllStores(): Promise<Store[]> {
+    return await this.storeRepository.findAll();
+  }
+
   public async getStoreById(id: bigint): Promise<Store | null> {
     return await this.storeRepository.findById(id);
   }
