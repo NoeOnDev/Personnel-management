@@ -1,11 +1,7 @@
-# Modules
-node_modules/
+node_modules
 
-# Environment
 .env
 
-# Build
-dist/
+.vscode
 
-# VSCode
-.vscode/
+package-lock.json
